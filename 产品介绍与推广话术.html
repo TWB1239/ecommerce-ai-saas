@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI电商运营助手 - 产品介绍</title>
+<style>
+  @page { margin: 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #1a1a2e;
+    line-height: 1.8;
+    background: #f5f5f7;
+  }
+  .page {
+    max-width: 210mm;
+    margin: 20px auto;
+    background: white;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cover {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 60px 50px;
+    text-align: center;
+  }
+  .cover .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 13px;
+    margin-bottom: 24px;
+    color: #a0c4ff;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #fff, #90caf9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .cover .subtitle {
+    font-size: 18px;
+    color: #a0c4ff;
+    margin-bottom: 30px;
+  }
+  .cover .price-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 14px;
+    color: #ccc;
+  }
+  .cover .price-tag strong {
+    font-size: 28px;
+    color: #4ade80;
+  }
+  .section {
+    padding: 40px 50px;
+    border-bottom: 1px solid #eee;
+  }
+  .section:last-child { border-bottom: none; }
+  .section h2 {
+    font-size: 22px;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .section h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 18px 0 8px;
+  }
+  .section p, .section li {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  .section ul { padding-left: 20px; }
+  .section ul li { margin-bottom: 6px; }
+  .highlight-box {
+    background: linear-gradient(135deg, #f0f4ff, #faf0ff);
+    border-left: 4px solid #667eea;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .highlight-box.blue { border-left-color: #3b82f6; background: #f0f7ff; }
+  .highlight-box.green { border-left-color: #22c55e; background: #f0fdf4; }
+  .highlight-box.orange { border-left-color: #f59e0b; background: #fffbeb; }
+  .highlight-box.red { border-left-color: #ef4444; background: #fef2f2; }
+  .highlight-box p { margin: 0; font-size: 14px; }
+  .tag {
+    display: inline-block;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-right: 4px;
+  }
+  .script-box {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px 0;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .script-box .speaker {
+    color: #60a5fa;
+    font-weight: 600;
+  }
+  .script-box .note {
+    color: #9ca3af;
+    font-style: italic;
+    font-size: 13px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 12px 0;
+  }
+  .feature-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .feature-card .icon { font-size: 24px; margin-bottom: 6px; }
+  .feature-card h4 { font-size: 14px; color: #1a1a2e; margin-bottom: 4px; }
+  .feature-card p { font-size: 13px; color: #666; margin: 0; }
+  .table-wrap {
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table th {
+    background: #f1f5f9;
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #555;
+  }
+  table tr:hover td { background: #fafafa; }
+  .step-list {
+    counter-reset: step;
+  }
+  .step-list li {
+    counter-increment: step;
+    list-style: none;
+    padding: 12px 0 12px 36px;
+    position: relative;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 24px; height: 24px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    font-size: 12px;
+  }
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; max-width: 100%; }
+    .cover { break-after: page; }
+    .section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ==================== 封面 ==================== -->
+  <div class="cover">
+    <div class="badge">🚀 AI 驱动电商增长</div>
+    <h1>AI 电商运营助手</h1>
+    <p class="subtitle">面向淘宝 / 拼多多 / 京东 / Shopify 中小卖家的智能运营平台</p>
+    <div class="price-tag">
+      免费试用 7 天 &nbsp;·&nbsp; 专业版 <strong>¥99</strong>/月 &nbsp;·&nbsp; 企业版 <strong>¥299</strong>/月
+    </div>
+    <div style="margin-top: 30px; font-size: 13px; color: #888;">
+      无需安装 &nbsp;·&nbsp; 浏览器打开即用 &nbsp;·&nbsp; 3 分钟上手
+    </div>
+  </div>
+
+  <!-- ==================== 一、话术 ==================== -->
+  <div class="section">
+    <h2><span class="num">1</span> 销售话术 — 怎么和老板介绍</h2>
+    <p style="color:#888; font-size:13px; margin-bottom:16px;">以下是针对不同场景的开场白和对话流程，你可以根据实际情况调整。</p>
+
+    <h3>🎯 场景一：微信 / 私聊开场</h3>
+    <div class="script-box">
+      <p><span class="speaker">你：</span> 老板你好！我是做电商 AI 运营工具的，简单说就是用人工智能帮卖家优化标题、诊断店铺问题、生成直播话术。我自己也在做京东店，知道中小卖家的痛点。</p>
+      <p><span class="speaker">你：</span> 我们这个工具目前 <strong>免费试用 7 天</strong>，没有任何风险。你有空的话，我发你一个链接，打开就能用，3 分钟就能上手。</p>
+      <p class="note">💡 关键点：先强调「免费试用」，降低对方防备心。对方拒绝也无所谓，加个好友先留着。</p>
+    </div>
+
+    <h3>🎯 场景二：当面介绍（展会 / 见面）</h3>
+    <div class="script-box">
+      <p><span class="speaker">你：</span> 老板，你现在店铺日常运营中，最花时间的是什么事？</p>
+      <p class="note">（等他回答：可能是写标题、分析数据、写直播话术等）</p>
+      <p><span class="speaker">你：</span> 对，这些其实都可以用 AI 来做。我们这个工具只需要你把产品信息填进去，AI 自动帮你生成优化方案。比如标题优化，填个产品名，3 秒出 3 个优化版，比你人工想半小时的效果还好。</p>
+      <p><span class="speaker">你：</span> 而且现在可以免费试用，你拿一个产品试试就知道了。好用再考虑付费，也就一包烟钱一个月。</p>
+    </div>
+
+    <h3>🎯 场景三：回复拒绝或犹豫</h3>
+    <div class="highlight-box orange">
+      <p><strong>客户说："不需要，我自己能弄"</strong><br>
+      你可以回：老板你运营能力肯定强，但这个工具就相当于给你配了个 24 小时在线的运营助理。你只需要把精力花在选品和策略上，重复性的优化工作交给 AI，效率能翻倍。</p>
+    </div>
+    <div class="highlight-box orange">
+      <p><strong>客户说："太贵了"</strong><br>
+      你可以回：¥99 一个月，平均一天 3 块 3，比一杯奶茶还便宜。你随便优化一个标题多卖几单就赚回来了。而且可以先免费试用 7 天，觉得没效果不用付钱。</p>
+    </div>
+
+    <h3>📝 核心卖点（3 句话概括）</h3>
+    <div class="highlight-box blue">
+      <p><strong>① 省钱：</strong> 不用请运营，AI 帮你干，¥99/月 = 一个 24 小时在线的运营助理</p>
+      <p><strong>② 省时：</strong> 标题优化 3 秒出结果，店铺诊断 10 秒出报告</p>
+      <p><strong>③ 零风险：</strong> 免费试用 7 天，不满意不花钱</p>
+    </div>
+  </div>
+
+  <!-- ==================== 二、产品介绍 ==================== -->
+  <div class="section">
+    <h2><span class="num">2</span> 产品介绍 — 它是什么</h2>
+
+    <p><strong>AI 电商运营助手</strong> 是一个面向中小卖家的在线工具平台。你不需要安装任何软件，打开浏览器注册就能用。</p>
+
+    <div style="margin: 16px 0;">
+      <span class="tag">🔍 店铺诊断</span>
+      <span class="tag">✏️ 标题优化</span>
+      <span class="tag">🎙️ 直播话术</span>
+      <span class="tag">📈 营业额分析</span>
+      <span class="tag">🏪 店铺管理</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="feature-card">
+        <div class="icon">🔍</div>
+        <h4>店铺诊断</h4>
+        <p>填店铺数据 → AI 自动分析问题，给出优化建议。覆盖流量、转化、客单价、利润率等维度。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">✏️</div>
+        <h4>标题优化</h4>
+        <p>输入产品名称，AI 自动生成 3 个优化标题，包含关键词优化和卖点突出。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎙️</div>
+        <h4>直播话术</h4>
+        <p>输入产品信息，AI 自动生成开场、讲品、互动、逼单完整直播脚本。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📈</div>
+        <h4>营业额分析</h4>
+        <p>填入每日营业额数据，AI 分析趋势、发现增长机会。</p>
+      </div>
+    </div>
+
+    <div class="highlight-box green" style="margin-top: 16px;">
+      <p><strong>额外功能：</strong> 我的店铺（保存店铺信息，一次填写永久使用）+ CSV 批量导入 + 使用历史记录</p>
+    </div>
+
+    <h3>定价方案</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>套餐</th><th>价格</th><th>每日分析次数</th><th>功能</th></tr>
+        <tr><td>免费版</td><td>¥0</td><td>10 次</td><td>基础标题优化 + 基础诊断</td></tr>
+        <tr><td style="font-weight:600; color:#4f46e5;">专业版 ★</td><td>¥99/月</td><td>100 次</td><td style="font-weight:600;">全部功能 + 历史记录 + 优先客服</td></tr>
+        <tr><td>企业版</td><td>¥299/月</td><td>不限次</td><td>全部功能 + API 接入 + 专属客户经理</td></tr>
+      </table>
+    </div>
+    <p style="font-size: 13px; color: #888; margin-top: 4px;">🎁 新用户注册即送 7 天专业版免费试用</p>
+  </div>
+
+  <!-- ==================== 三、使用指南 ==================== -->
+  <div class="section">
+    <h2><span class="num">3</span> 使用指南 — 3 分钟上手</h2>
+
+    <ol class="step-list">
+      <li>
+        <strong>打开网站，注册账号</strong>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #666;">在浏览器打开我们给你的链接 → 点击「免费注册」→ 输入邮箱和密码 → 完成注册</p>
+        <p style="font-size: 12px; color: #999;">⏱ 30 秒 &nbsp;|&nbsp; 注册即自动获得 7 天免费试用</p>
+      </li>
+      <li>
+        <strong>进入控制台</strong>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #666;">登录后自动进入控制台首页。左侧有导航菜单，包含所有功能入口。</p>
+      </li>
+      <li>
+        <strong>使用功能 — 以「标题优化」为例</strong>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #666;">
+          ① 点击左侧「标题优化」<br>
+          ② 输入你的产品名称和品类（如：加厚厨房纸巾 4层100抽）<br>
+          ③ 点击「开始优化」按钮<br>
+          ④ 3 秒后 AI 返回 3 个优化版本，你选一个复制使用
+        </p>
+      </li>
+      <li>
+        <strong>使用「我的店铺」保存常用信息</strong>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #666;">点击「我的店铺」→ 添加店铺信息（平台、品类、月营业额等）→ 之后做诊断时直接选择已保存的店铺，不用每次都重新填。</p>
+      </li>
+      <li>
+        <strong>查看历史记录</strong>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #666;">所有分析结果自动保存在「历史记录」中，随时可以查看和复制。</p>
+      </li>
+    </ol>
+
+    <div class="highlight-box blue" style="margin-top: 16px;">
+      <p><strong>📱 使用建议：</strong> 电脑和手机上都能用。建议第一次用电脑操作，熟悉后手机也能随时查报告。</p>
+    </div>
+  </div>
+
+  <!-- ==================== 四、常见问题 ==================== -->
+  <div class="section">
+    <h2><span class="num">4</span> 常见问题（客户可能会问）</h2>
+
+    <div class="highlight-box" style="margin-bottom: 10px;">
+      <p><strong>Q：准不准？AI 会不会乱说？</strong><br>
+      A：我们用的是 DeepSeek 等顶级 AI 模型，分析质量经过大量测试。所有结果都标明了「仅供参考」，建议你结合自己的经验判断。</p>
+    </div>
+    <div class="highlight-box" style="margin-bottom: 10px;">
+      <p><strong>Q：安全吗？我的店铺数据会不会泄露？</strong><br>
+      A：数据加密存储，只有你自己能看到。我们不会把你的数据给任何第三方。</p>
+    </div>
+    <div class="highlight-box" style="margin-bottom: 10px;">
+      <p><strong>Q：我不会用电脑，能学会吗？</strong><br>
+      A：全程就是填表 + 点按钮，跟我们用微信一样简单。你试一次就会了。</p>
+    </div>
+    <div class="highlight-box" style="margin-bottom: 10px;">
+      <p><strong>Q：我做了付费，效果不好怎么办？</strong><br>
+      A：前 7 天免费试用，你觉得有价值再付费。而且¥99/月也不贵，优化一个标题多卖几单就回来了。</p>
+    </div>
+  </div>
+
+  <!-- ==================== 五、推广建议 ==================== -->
+  <div class="section">
+    <h2><span class="num">5</span> 给你的推广建议</h2>
+
+    <div class="highlight-box green">
+      <p><strong>第一步：先免费，后付费</strong><br>
+      让每个商家免费试用 7 天。用了觉得好，自然愿意付费。不要一上来就推销。</p>
+    </div>
+    <div class="highlight-box green">
+      <p><strong>第二步：用案例说话</strong><br>
+      自己先拿一个产品跑一遍，把 AI 优化前后的标题截图对比。一张图胜过千句话。</p>
+    </div>
+    <div class="highlight-box green">
+      <p><strong>第三步：找种子用户</strong><br>
+      先从你认识的人开始：做电商的朋友、同学、亲戚。他们用了觉得好，会帮你推荐。</p>
+    </div>
+    <div class="highlight-box green">
+      <p><strong>第四步：低成本推广</strong><br>
+      ① 发到电商卖家微信群（免费试用链接）<br>
+      ② 在闲鱼/淘宝卖「AI 标题优化服务」引流<br>
+      ③ 写小红书/知乎文章（搜索「淘宝标题优化」看流量大不大）</p>
+    </div>
+
+    <div class="highlight-box orange" style="margin-top: 16px;">
+      <p><strong>一句话总结：</strong>
+      「老板你好，这里有个 AI 工具可以免费帮你优化标题、诊断店铺，3 秒出结果，要不要试试？」</p>
+    </div>
+  </div>
+
+  <footer>
+    AI 电商运营助手 · 如有问题随时联系我们
+  </footer>
+
+</div>
+
+</body>
+</html>
