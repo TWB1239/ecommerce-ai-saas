@@ -31,7 +31,13 @@ export default function LoginPage() {
       return
     }
 
-    router.push('/dashboard')
+    // 检查是否存在 access_token，确认登录真正成功
+    if (result.data?.access_token) {
+      router.push('/dashboard')
+    } else {
+      setError('登录成功但未获取到会话信息，请检查 Supabase 配置')
+      setLoading(false)
+    }
   }
 
   return (

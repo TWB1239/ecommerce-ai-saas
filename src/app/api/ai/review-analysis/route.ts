@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callAI } from '@/lib/ai'
 import { getAuthenticatedUser, incrementUsage } from '@/lib/api-auth'
+import { webSearch, formatSearchResults } from '@/lib/web-search'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,11 +23,23 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const result = await callAI('review_analysis', body)
+    // 联网搜索相关行业数据
+    let searchContext = ''
+    try {
+      const category = body.product_category || ''
+      if (category) {
+        const results = await webSearch(`${category} 电商 客户评价 常见差评 行业数据`, 3)
+        if (results.length > 0) {
+          searchContext += formatSearchResults(results, category)
+        }
+      }
+    } catch {
+      // 搜索失败不影响主流程
+    }
 
-    incrementUsage(user.id, 'review_analysis').catch(() => {
-      console.error('Failed to increment usage for review_analysis')
-    })
+    const result = await callAI('review_analysis', body, searchContext)
+
+    incrementUsage(user.id, 'review_analysis').catch(() => {})
 
     return NextResponse.json({ success: true, result })
   } catch (error: unknown) {

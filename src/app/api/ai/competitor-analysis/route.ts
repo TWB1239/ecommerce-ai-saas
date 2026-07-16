@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callAI } from '@/lib/ai'
 import { getAuthenticatedUser, incrementUsage } from '@/lib/api-auth'
+import { webSearch, formatSearchResults, getEnhancedSystemPrompt } from '@/lib/web-search'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs' // web-search uses fetch
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,11 +23,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const result = await callAI('competitor_analysis', body)
+    // 联网搜索：根据竞品名称获取实时信息
+    let searchContext = ''
+    try {
+      const searchQueries: string[] = []
+      if (body.competitor1_name) searchQueries.push(body.competitor1_name)
+      if (body.competitor2_name) searchQueries.push(body.competitor2_name)
+      if (body.competitor3_name) searchQueries.push(body.competitor3_name)
+      if (body.category) searchQueries.push(`${body.category} 电商 行业数据`)
 
-    incrementUsage(user.id, 'competitor_analysis').catch(() => {
-      console.error('Failed to increment usage for competitor_analysis')
-    })
+      for (const query of searchQueries.slice(0, 3)) {
+        const results = await webSearch(query, 3)
+        if (results.length > 0) {
+          searchContext += formatSearchResults(results, query)
+        }
+      }
+    } catch {
+      // 搜索失败不影响主流程
+    }
+
+    const result = await callAI('competitor_analysis', body, searchContext)
+
+    incrementUsage(user.id, 'competitor_analysis').catch(() => {})
 
     return NextResponse.json({ success: true, result })
   } catch (error: unknown) {

@@ -19,12 +19,15 @@ import {
   Search,
   ShoppingBag,
   Sparkles,
+  Crosshair,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: '控制台', icon: LayoutDashboard },
   { href: '/dashboard/stores', label: '我的店铺', icon: Store },
   { href: '/dashboard/diagnosis', label: '店铺诊断', icon: Search },
+  { href: '/dashboard/competitor-analysis', label: '竞品对比', icon: Crosshair },
+  { href: '/dashboard/review-analysis', label: '评价分析', icon: MessageSquareText },
   { href: '/dashboard/title-optimize', label: '标题优化', icon: FileText },
   { href: '/dashboard/live-script', label: '直播话术', icon: MessageSquareText },
   { href: '/dashboard/revenue', label: '营业额分析', icon: BarChart3 },

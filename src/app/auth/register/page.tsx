@@ -31,6 +31,7 @@ export default function RegisterPage() {
       return
     }
 
+    // 注册成功后直接跳转（Supabase 默认自动登录注册用户）
     router.push('/dashboard')
   }
 
