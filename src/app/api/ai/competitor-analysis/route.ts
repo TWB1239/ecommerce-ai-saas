@@ -23,13 +23,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 联网搜索：根据竞品名称获取实时信息
+    // 联网搜索：根据品类和产品获取实时信息
     let searchContext = ''
     try {
       const searchQueries: string[] = []
-      if (body.competitor1_name) searchQueries.push(body.competitor1_name)
-      if (body.competitor2_name) searchQueries.push(body.competitor2_name)
-      if (body.competitor3_name) searchQueries.push(body.competitor3_name)
+      if (body.my_product) searchQueries.push(body.my_product)
       if (body.category) searchQueries.push(`${body.category} 电商 行业数据`)
 
       for (const query of searchQueries.slice(0, 3)) {

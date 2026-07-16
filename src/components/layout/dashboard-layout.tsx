@@ -5,25 +5,15 @@ import { usePathname, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { useEffect, useState } from 'react'
 import {
-  LayoutDashboard,
-  Store,
-  FileText,
-  MessageSquareText,
-  BarChart3,
-  History,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Menu,
-  X,
-  Search,
-  ShoppingBag,
-  Sparkles,
-  Crosshair,
+  LayoutDashboard, Store, FileText, MessageSquareText,
+  BarChart3, History, LogOut, ChevronLeft, ChevronRight,
+  Menu, X, Search, Sparkles, Crosshair, Bot,
 } from 'lucide-react'
 
+import Particles from '@/components/particles'
+
 const navItems = [
-  { href: '/dashboard', label: '控制台', icon: LayoutDashboard },
+  { href: '/dashboard', label: '工作台', icon: LayoutDashboard },
   { href: '/dashboard/stores', label: '我的店铺', icon: Store },
   { href: '/dashboard/diagnosis', label: '店铺诊断', icon: Search },
   { href: '/dashboard/competitor-analysis', label: '竞品对比', icon: Crosshair },
@@ -34,11 +24,7 @@ const navItems = [
   { href: '/dashboard/history', label: '历史记录', icon: History },
 ]
 
-interface DashboardLayoutProps {
-  children: React.ReactNode
-}
-
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
@@ -47,145 +33,118 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/auth/login')
-        return
-      }
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) { router.push('/auth/login'); return }
       setUser(user)
       setLoading(false)
-    }
-    getUser()
+    })
   }, [router])
+
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-zinc-950">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-zinc-500 text-sm">加载中...</p>
+      </div>
+    </div>
+  )
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
     router.push('/')
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
-      </div>
-    )
-  }
-
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
-      {/* Logo */}
-      <div className={`flex items-center gap-3 px-4 py-5 border-b border-gray-100 ${collapsed ? 'justify-center' : ''}`}>
-        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-          <Sparkles className="w-4 h-4 text-white" />
+      {/* Brand */}
+      <div className={`flex items-center gap-3 px-4 py-5 border-b border-white/[0.06] ${collapsed ? 'justify-center' : ''}`}>
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-600/20 ring-1 ring-white/10">
+          <Bot className="w-5 h-5 text-white" />
         </div>
         {!collapsed && (
-          <span className="font-bold text-lg text-gray-900">AI智营</span>
+          <div>
+            <span className="font-bold text-base text-white tracking-tight">灵境</span>
+            <p className="text-[10px] text-zinc-500 -mt-0.5">AI 电商运营平台</p>
+          </div>
         )}
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-2.5 py-4 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || 
-            (item.href !== '/dashboard' && pathname.startsWith(item.href))
+          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
           const Icon = item.icon
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                isActive
-                  ? 'bg-blue-50 text-blue-600 font-medium'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              } ${collapsed ? 'justify-center' : ''}`}
-              title={collapsed ? item.label : undefined}
-            >
-              <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}`} />
+            <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-sm
+                ${isActive
+                  ? 'bg-violet-500/10 text-violet-300 font-medium ring-1 ring-violet-500/20'
+                  : 'text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200'
+                } ${collapsed ? 'justify-center' : ''}`}
+              title={collapsed ? item.label : undefined}>
+              <Icon className={`w-[18px] h-[18px] flex-shrink-0 ${isActive ? 'text-violet-400' : 'text-zinc-500 group-hover:text-zinc-300'}`} />
               {!collapsed && <span>{item.label}</span>}
             </Link>
           )
         })}
       </nav>
 
-      {/* User & Logout */}
-      <div className="border-t border-gray-100 p-3">
+      {/* User */}
+      <div className="border-t border-white/[0.06] p-3 space-y-1">
         {!collapsed && user && (
-          <div className="px-3 py-2 text-sm text-gray-500 truncate">
+          <div className="px-3 py-1.5 text-xs text-zinc-600 truncate flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/60" />
             {user.email}
           </div>
         )}
-        <button
-          onClick={handleLogout}
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all w-full ${collapsed ? 'justify-center' : ''}`}
-          title={collapsed ? '退出登录' : undefined}
-        >
-          <LogOut className="w-5 h-5 flex-shrink-0" />
-          {!collapsed && <span>退出登录</span>}
+        <button onClick={handleLogout}
+          className={`flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-500 hover:bg-red-500/10 hover:text-red-400 transition-all w-full text-sm ${collapsed ? 'justify-center' : ''}`}>
+          <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
+          {!collapsed && <span>退出</span>}
         </button>
       </div>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Desktop Sidebar */}
-      <aside
-        className={`hidden md:flex flex-col bg-white border-r border-gray-200 transition-all duration-300 relative ${
-          collapsed ? 'w-16' : 'w-60'
-        }`}
-      >
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 flex">
+      <Particles />
+
+      {/* Desktop Sidebar - fixed */}
+      <aside className={`hidden md:flex flex-col fixed left-0 top-0 h-screen bg-zinc-900/70 border-r border-white/[0.06] backdrop-blur-2xl transition-all duration-300 z-30
+        ${collapsed ? 'w-16' : 'w-56'}`}>
         <SidebarContent />
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="absolute -right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:border-gray-300 shadow-sm"
-        >
+        <button onClick={() => setCollapsed(!collapsed)}
+          className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-zinc-800 border border-white/10 rounded-full flex items-center justify-center text-zinc-500 hover:text-zinc-200 transition-colors shadow-xl z-40">
           {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
         </button>
       </aside>
 
-      {/* Mobile Sidebar Overlay */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-      <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 md:hidden ${
-          mobileOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
+      {/* Mobile Overlay */}
+      {mobileOpen && <div className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" onClick={() => setMobileOpen(false)} />}
+      <aside className={`fixed top-0 left-0 h-full w-64 bg-zinc-900 z-50 transform transition-transform duration-300 md:hidden
+        ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex justify-end p-2">
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="p-2 rounded-lg hover:bg-gray-100"
-          >
+          <button onClick={() => setMobileOpen(false)} className="p-2 rounded-lg hover:bg-white/5 text-zinc-400">
             <X className="w-5 h-5" />
           </button>
         </div>
         <SidebarContent />
       </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile Header */}
-        <header className="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="p-2 rounded-lg hover:bg-gray-100"
-          >
+      {/* Main - offset for fixed sidebar */}
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${collapsed ? 'md:ml-16' : 'md:ml-56'}`}>
+        <header className="md:hidden bg-zinc-900/90 border-b border-white/5 px-4 py-3 flex items-center gap-3 backdrop-blur-xl sticky top-0 z-20">
+          <button onClick={() => setMobileOpen(true)} className="p-2 rounded-lg hover:bg-white/5 text-zinc-400">
             <Menu className="w-5 h-5" />
           </button>
-          <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center">
             <Sparkles className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="font-bold text-gray-900">AI智营</span>
+          <span className="font-bold text-white text-sm">灵境</span>
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 p-4 md:p-8 overflow-auto">
+        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.03),transparent_60%)]">
           {children}
         </main>
       </div>

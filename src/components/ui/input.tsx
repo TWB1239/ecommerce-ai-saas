@@ -3,27 +3,25 @@
 import { forwardRef, InputHTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean
-}
-
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, error, type, ...props }, ref) => {
+const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  ({ className, type, ...props }, ref) => {
     return (
       <input
         type={type}
-        ref={ref}
         className={cn(
-          'flex h-10 w-full rounded-lg border bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50',
-          error
-            ? 'border-red-500 focus:ring-red-500'
-            : 'border-gray-300 focus:ring-amber-500 focus:border-amber-500',
+          'flex h-10 w-full rounded-lg border border-white/[0.15] bg-white/[0.05] px-3 py-2 text-sm text-white/90',
+          'placeholder:text-zinc-500',
+          'hover:border-white/[0.25] hover:bg-white/[0.07]',
+          'focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/60 focus:shadow-[0_0_16px_rgba(168,85,247,0.20)]',
+          'transition-all duration-200',
+          'disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
+        ref={ref}
         {...props}
       />
     )
   }
 )
 Input.displayName = 'Input'
-export { Input, type InputProps }
+export { Input }

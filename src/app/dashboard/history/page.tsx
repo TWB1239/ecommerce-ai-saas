@@ -40,10 +40,16 @@ export default function HistoryPage() {
   if (loading) return <Loading text="加载历史记录..." />
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">📋 历史记录</h1>
-        <p className="text-gray-500 text-sm mt-1">查看所有 AI 分析记录</p>
+    <div className="space-y-5">
+      {/* Page Header */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-zinc-500 to-zinc-600 flex items-center justify-center shadow-lg">
+          <Clock className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h1 className="text-lg font-bold text-white tracking-tight">历史记录</h1>
+          <p className="text-xs text-zinc-500">查看所有 AI 分析记录</p>
+        </div>
       </div>
 
       {/* 筛选 */}

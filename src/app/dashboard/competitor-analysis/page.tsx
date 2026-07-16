@@ -24,10 +24,8 @@ export default function CompetitorAnalysisPage() {
   const [selectedStore, setSelectedStore] = useState('')
   const [form, setForm] = useState({
     my_product: '', my_price: '', my_description: '', my_selling_points: '',
+    my_product_url: '', competitor1_url: '', competitor2_url: '', competitor3_url: '',
     platform: 'taobao', category: '',
-    competitor1_name: '', competitor1_price: '', competitor1_title: '', competitor1_description: '', competitor1_reviews: '',
-    competitor2_name: '', competitor2_price: '', competitor2_title: '', competitor2_description: '', competitor2_reviews: '',
-    competitor3_name: '', competitor3_price: '', competitor3_title: '', competitor3_description: '', competitor3_reviews: '',
   })
   const [result, setResult] = useState('')
   const [loading, setLoading] = useState(false)
@@ -71,17 +69,23 @@ export default function CompetitorAnalysisPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">📊 竞品对比分析</h1>
-        <p className="text-gray-500 text-sm mt-1">输入你的产品和竞品信息，AI 深度对比分析，找出竞争优势和机会</p>
+    <div className="space-y-5">
+      {/* Page Header */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center shadow-lg shadow-rose-600/20">
+          <Crosshair className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h1 className="text-lg font-bold text-white tracking-tight">竞品对比分析</h1>
+          <p className="text-xs text-zinc-500">输入你的产品和竞品链接，AI 深度对比找出差异化优势</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <Card>
           <CardHeader>
             <CardTitle>产品与竞品信息</CardTitle>
-            <CardDescription>填写你的产品 + 2-3 个竞品信息</CardDescription>
+            <CardDescription>填写你的产品信息 + 粘贴 1-3 个竞品链接</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -106,9 +110,9 @@ export default function CompetitorAnalysisPage() {
                 <Input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="如：纸巾、日用百货" />
               </div>
 
-              {/* 自己的产品 */}
-              <div className="bg-amber-50 rounded-lg p-4 space-y-3">
-                <p className="font-medium text-amber-800 text-sm">🟢 你的产品</p>
+              {/* 你的产品信息 - 现在在上方 */}
+              <div className="bg-zinc-800/30 rounded-lg p-4 space-y-3">
+                <p className="font-medium text-zinc-300 text-sm">🟢 你的产品</p>
                 <div className="space-y-2">
                   <Label>产品名称</Label>
                   <Input value={form.my_product} onChange={e => setForm({...form, my_product: e.target.value})} placeholder="你的产品名称" />
@@ -129,63 +133,25 @@ export default function CompetitorAnalysisPage() {
                 </div>
               </div>
 
-              {/* 竞品 1 */}
-              <div className="bg-red-50 rounded-lg p-4 space-y-3">
-                <p className="font-medium text-red-700 text-sm">🔴 竞品 1</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label>店铺/产品名称</Label>
-                    <Input value={form.competitor1_name} onChange={e => setForm({...form, competitor1_name: e.target.value})} placeholder="竞品1名称" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>价格（¥）</Label>
-                    <Input value={form.competitor1_price} onChange={e => setForm({...form, competitor1_price: e.target.value})} placeholder="25.9" />
-                  </div>
-                </div>
+              {/* 产品链接输入 - 现在在下方 */}
+              <div className="space-y-3 p-4 bg-zinc-800/30 rounded-lg border border-zinc-700/50">
+                <p className="text-sm font-medium text-zinc-300">🔗 粘贴竞品链接（AI 自动分析）</p>
                 <div className="space-y-2">
-                  <Label>标题</Label>
-                  <Input value={form.competitor1_title} onChange={e => setForm({...form, competitor1_title: e.target.value})} placeholder="竞品的标题文案" />
-                </div>
-                <div className="space-y-2">
-                  <Label>描述/卖点</Label>
-                  <Input value={form.competitor1_description} onChange={e => setForm({...form, competitor1_description: e.target.value})} placeholder="竞品主打卖点" />
-                </div>
-                <div className="space-y-2">
-                  <Label>评价摘要（好评/差评说了什么）</Label>
-                  <Textarea value={form.competitor1_reviews} onChange={e => setForm({...form, competitor1_reviews: e.target.value})} placeholder="粘贴竞品的评价摘要，帮你分析竞品弱点" rows={2} />
-                </div>
-              </div>
-
-              {/* 竞品 2 */}
-              <div className="bg-red-50/70 rounded-lg p-4 space-y-3">
-                <p className="font-medium text-red-600 text-sm">🔴 竞品 2</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label>店铺/产品名称</Label>
-                    <Input value={form.competitor2_name} onChange={e => setForm({...form, competitor2_name: e.target.value})} placeholder="竞品2名称（选填）" />
+                  <div className="space-y-1">
+                    <Label className="text-zinc-500 text-xs">你的产品链接（选填）</Label>
+                    <Input value={form.my_product_url} onChange={e => setForm({...form, my_product_url: e.target.value})} placeholder="你的产品链接" className="bg-zinc-800 border-zinc-700 text-zinc-200" />
                   </div>
-                  <div className="space-y-2">
-                    <Label>价格（¥）</Label>
-                    <Input value={form.competitor2_price} onChange={e => setForm({...form, competitor2_price: e.target.value})} placeholder="" />
+                  <div className="space-y-1">
+                    <Label className="text-zinc-500 text-xs">竞品 1 链接</Label>
+                    <Input value={form.competitor1_url} onChange={e => setForm({...form, competitor1_url: e.target.value})} placeholder="竞品1链接" className="bg-zinc-800 border-zinc-700 text-zinc-200" />
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>标题/描述</Label>
-                  <Input value={form.competitor2_title} onChange={e => setForm({...form, competitor2_title: e.target.value})} placeholder="竞品标题或描述" />
-                </div>
-              </div>
-
-              {/* 竞品 3 */}
-              <div className="bg-red-50/40 rounded-lg p-4 space-y-3">
-                <p className="font-medium text-red-500 text-sm">🔴 竞品 3（选填）</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label>名称</Label>
-                    <Input value={form.competitor3_name} onChange={e => setForm({...form, competitor3_name: e.target.value})} placeholder="竞品3名称（选填）" />
+                  <div className="space-y-1">
+                    <Label className="text-zinc-500 text-xs">竞品 2 链接（选填）</Label>
+                    <Input value={form.competitor2_url} onChange={e => setForm({...form, competitor2_url: e.target.value})} placeholder="竞品2链接（选填）" className="bg-zinc-800 border-zinc-700 text-zinc-200" />
                   </div>
-                  <div className="space-y-2">
-                    <Label>价格</Label>
-                    <Input value={form.competitor3_price} onChange={e => setForm({...form, competitor3_price: e.target.value})} placeholder="" />
+                  <div className="space-y-1">
+                    <Label className="text-zinc-500 text-xs">竞品 3 链接（选填）</Label>
+                    <Input value={form.competitor3_url} onChange={e => setForm({...form, competitor3_url: e.target.value})} placeholder="竞品3链接（选填）" className="bg-zinc-800 border-zinc-700 text-zinc-200" />
                   </div>
                 </div>
               </div>
@@ -200,7 +166,7 @@ export default function CompetitorAnalysisPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>竞品分析报告</CardTitle>
+            <CardTitle>竞品对比分析报告</CardTitle>
             <CardDescription>AI 深度对比分析结果</CardDescription>
           </CardHeader>
           <CardContent>
@@ -211,12 +177,12 @@ export default function CompetitorAnalysisPage() {
                   <Button size="sm" variant="outline" onClick={() => navigator.clipboard.writeText(result)}>
                     <Copy className="w-4 h-4 mr-1" /> 复制报告
                   </Button>
-                  <div className="bg-gray-50 rounded-lg p-5 whitespace-pre-wrap text-sm leading-relaxed text-gray-800">{result}</div>
+                  <div className="bg-zinc-800/30 rounded-lg p-5 whitespace-pre-wrap text-sm leading-relaxed text-zinc-300 border border-zinc-700/50">{result}</div>
                 </div>
               ) : (
-                <div className="text-center py-16 text-gray-400">
+                <div className="text-center py-16 text-zinc-500">
                   <Crosshair className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p className="text-sm">填写产品和竞品信息</p>
+                  <p className="text-sm">填写你的产品和竞品链接</p>
                   <p className="text-xs mt-1">AI 将生成详细的竞品对比分析报告</p>
                 </div>
               )}
