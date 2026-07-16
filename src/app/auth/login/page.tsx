@@ -23,20 +23,29 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    try {
+      // 先测试 Supabase 连接
+      console.log('[Login] Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(0, 30) + '...')
 
-    if (signInError) {
-      setError(signInError.message === 'Invalid login credentials'
-        ? '邮箱或密码错误'
-        : signInError.message)
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (signInError) {
+        setError(signInError.message === 'Invalid login credentials'
+          ? '邮箱或密码错误'
+          : signInError.message)
+        setLoading(false)
+        return
+      }
+
+      router.push('/dashboard')
+    } catch (err: any) {
+      console.error('[Login] 完整错误:', err)
+      setError('登录失败: ' + (err?.message || err?.toString() || '未知错误，请打开浏览器控制台查看详情'))
       setLoading(false)
-      return
     }
-
-    router.push('/dashboard')
   }
 
   return (
